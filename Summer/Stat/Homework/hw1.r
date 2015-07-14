@@ -55,8 +55,11 @@ sum(grade.data$Course.Average..100.0. < grade.data$Final.Exam..100.0.) / 5.66
 top_20 <- subset(grade.data, grade.data$Course.Average..100.0>quantile(grade.data$Course.Average..100.0.,.8))
 bottom_20 <- subset(grade.data, grade.data$Course.Average..100.0.< quantile(grade.data$Course.Average..100.0.,.2))
 
+# for the top 20
 sum(top_20$Course.Average..100.0. < top_20$Final.Exam..100.0.) / 1.13
 # 9.73
+
+# for the bottome 20
 sum(bottom_20$Course.Average..100.0. < bottom_20$Final.Exam..100.0.) / 1.13
 # 13.2
 
@@ -72,3 +75,24 @@ sum( (grade.data$Quiz..45.0.>70*45/100 & grade.data$Quiz..45.0.<80*45/100) | (gr
 #111
 
 ### 2 ###
+grade.data["Letter.Grade"]<-"D"
+
+# Iterate over each row and assign a grade to each student
+for(i in 1:nrow(grade.data)) {
+  if (grade.data$Course.Average..100.0.[i]>=90) {
+    grade.data$Letter.Grade[i] <- "A" 
+  } else if (grade.data$Course.Average..100.0.[i]>=80) {
+    grade.data$Letter.Grade[i] <- "B" 
+  } else if (grade.data$Course.Average..100.0.[i]>=70) { 
+    grade.data$Letter.Grade[i] <- "C"
+  } else if (grade.data$Course.Average..100.0.[i]>=60) { 
+    grade.data$Letter.Grade[i] <- "D"
+  } else { 
+    grade.data$Letter.Grade[i] <- "F"  
+  }
+}
+
+table(grade.data$Letter.Grade)
+
+### 3 ###
+write.csv(grade.data,file = "mygradefile.csv")
