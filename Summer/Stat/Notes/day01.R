@@ -118,7 +118,7 @@ classes$starttime
 classes$endtime[3]
 classes$starttime > 1000
 classes$courses[classes$starttime > 1200]   # No morning classes!
-classes$courses[classes$starttime >= 1300 & classes$daysofweek=="MWF"]
+classes$courses[classes$starttime >= 1300 & classes$daysofweek=="TuTh"]
 
 # Introduction to vectorization
 #
@@ -190,7 +190,7 @@ small.or.big.number(108)
 # store number, and the day of the week.
 #
 
-d1 <- read.table("day01-1.txt",sep=",",header=T)
+d1 <- read.table("fastfood.txt",sep=",",header=T)
 typeof(d1) # A data frame is a list in R
 names(d1)  # Column names for data
 
@@ -205,31 +205,65 @@ max(d1$storenum)
 #
 # 1. Find the minimum time recorded for a transaction.
 #
+min(d1$secs)
+30
 # 2. How many transactions took the maximum recorded time?
 #
+length(d1$secs[d1$secs==max(d1$secs)])
+23
 # 3. How many transactions took place at store number 500?
 #
+length(d1$storenum[d1$storenum==500])
+114
 # 4. How many transactions took place on Tuesday?
 #
+length(d1$dayofweek[d1$dayofweek=="Tues"])
+20194
 # 5. How many transactions required less than 3 minutes?
 #
+length(d1$secs[d1$secs<180])
+56337
 # 6. How many transactions were recorded at store 711 on Friday?
 #
+sum(d1$storenum==117 & d1$dayofweek=="Fri")
+length(d1$storenum[d1$storenum==117 & d1$dayofweek=="Fri"])
+22
 # 7. How many transactions took more than 4 minutes at store
 #    117 on Thursday?
 #
+length(d1$secs[d1$storenum==117 & d1$dayofweek=="Thur" & d1$secs>240])
+7
 # 8. Which day of the week had the most transactions?
 #
+summary(d1$dayofweek)
+"Tuesday"
 # 9. What was the maximum number of transactions at a single 
 #    store?  
 # 
+table(d1$storenum)
+max(table(d1$storenum))
+147
 # 10. How many stores had the minimum number of recorded 
 #     transactions?
 #
+min(table(d1$storenum))
+
+# ??? d1$storenum[table(d1$storenum). == (min(table(d1$storenum)))]
+1
 # 11. What transaction time is the 50th percentile?
 #
+summary(d1$secs)
+quantile(d1$secs,.5)
+164
 # 12. What percentile is a transaction of 8 minutes?
 #
+ecdf(d1$secs)(480)
+###
+above <- length(d1$secs[d1$secs >=480])
+quant <- (1-above/length(d1$secs))*100
+quant
+~92
 # 13. Select a random sample of 20 transaction times, and
 #     compute the median of your sample.
 #
+median(sample_n(d1,20)$secs)
