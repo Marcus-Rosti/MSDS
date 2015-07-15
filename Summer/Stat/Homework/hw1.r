@@ -71,11 +71,13 @@ sum(grade.data$Quiz..45.0.>70*45/100 & grade.data$Quiz..45.0.<80*45/100)
 sum(grade.data$Homework..200.0./2>90 & grade.data$Homework..200.0./2<95)
 
 # #in both groups
-sum( (grade.data$Quiz..45.0.>70*45/100 & grade.data$Quiz..45.0.<80*45/100) | (grade.data$Homework..200.0./2>90 & grade.data$Homework..200.0./2<95) )
+both_groups <- sum( (grade.data$Quiz..45.0.>70*45/100 & grade.data$Quiz..45.0.<80*45/100) | (grade.data$Homework..200.0./2>90 & grade.data$Homework..200.0./2<95) )
+print("# of students with a C on the quiz a low A on the homework: " + both_groups)
 #111
 
 ### 2 ###
-grade.data["Letter.Grade"]<-"D"
+print("Updating course letter grade...")
+grade.data["Letter.Grade"]<-""
 
 # Iterate over each row and assign a grade to each student
 for(i in 1:nrow(grade.data)) {
@@ -93,6 +95,8 @@ for(i in 1:nrow(grade.data)) {
 }
 
 table(grade.data$Letter.Grade)
-
+print("Finished updating course letter grade")
 ### 3 ###
+print("Writing grades to file")
 write.csv(grade.data,file = "mygradefile.csv")
+print("Homework 1 complete")
