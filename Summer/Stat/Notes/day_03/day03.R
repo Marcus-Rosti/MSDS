@@ -78,6 +78,7 @@ bh.train = read.csv("brainhead-train.csv", header = TRUE)
 # are lots of options, but since we only care about
 # head size and brain weight, a simple scatter plot will
 # do.
+ggplot(bh.train,aes(x=HeadSize,y=BrainWeight))+geom_point(shape=1) +geom_smooth(method=lm)
 plot(bh.train,pch=20,cex=.2)
 #
 # We can fit a line to the data x = HeadSize and
@@ -103,10 +104,13 @@ brain.lm$residuals
 # departures
 #.
 plot(brain.lm$residuals,pch=20,cex=.2) # Normal dist?
+qplot(brain.lm$residuals)
+plot(brain.lm)
 #
 # The MSE is the average of the squared residuals:
 #
 mse <- mean(brain.lm$residuals^2)
+mse
 #
 # Note that this is slightly different than the usual 
 # definition of MSE from ANOVA, where one divides by

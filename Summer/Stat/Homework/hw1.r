@@ -72,7 +72,7 @@ sum(grade.data$Homework..200.0./2>90 & grade.data$Homework..200.0./2<95)
 
 # #in both groups
 both_groups <- sum( (grade.data$Quiz..45.0.>70*45/100 & grade.data$Quiz..45.0.<80*45/100) | (grade.data$Homework..200.0./2>90 & grade.data$Homework..200.0./2<95) )
-print("# of students with a C on the quiz a low A on the homework: " + both_groups)
+print("# of students with a C on the quiz a low A on the homework: ", both_groups)
 #111
 
 ### 2 ###
