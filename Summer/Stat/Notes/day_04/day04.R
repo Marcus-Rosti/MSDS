@@ -51,10 +51,12 @@ plot(d04b,pch=20,cex=.2)
 #
 
 ggplot(d04b,aes(x=c,y=p))+geom_point(shape=1)+geom_smooth(method=lm)
-ggplot(d04b,aes(x=c,y=log(p)))+geom_point(shape=1)+geom_smooth(method=lm)
+ggplot(d04b,aes(x=c,y=sqrt(p)))+geom_point(shape=1)+geom_smooth(method=lm)
 
+simple_model$leve
 simple_model <- lm(p~c,data = d04b)
-log_model <- lm(log(p)~c,data= d04b)
+log_model <- lm(log(p)~c,data = d04b)
+sqrt_model <- lm(sqrt(p)~c,data = d04b)
 
 mse_simple<-mean(simple_model$residuals^2)
 mse_simple
@@ -64,7 +66,10 @@ mse_log
 
 summary(simple_model)
 summary(log_model)
+summary(sqrt_model)
 
+anova(simple_model)
+anova(log_model)
 
 #
 ## Transformations
