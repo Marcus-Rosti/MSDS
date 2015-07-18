@@ -41,7 +41,26 @@ fs_down <- mean(far_studs$Course.Average..100.0.) - 2 * sd(far_studs$Course.Aver
 cat("The far 20: (",fs_down,", ",fs_upp,") ")
 # The far 20: ( 77.16021 ,  80.23843 )
 
-# c 
+# c
+letter_grades = function(data) {
+  # helper function to assign grades
+  data["Letter.Grade"] <- ""
+  for(i in 1:nrow(data)) {
+    if (data$Course.Average..100.0.[i]>=90) {
+      data$Letter.Grade[i] <- "A"
+    } else if (data$Course.Average..100.0.[i]>=80) {
+      data$Letter.Grade[i] <- "B"
+    } else if (data$Course.Average..100.0.[i]>=70) {
+      data$Letter.Grade[i] <- "C"
+    } else if (data$Course.Average..100.0.[i]>=60) {
+      data$Letter.Grade[i] <- "D"
+    } else {
+      data$Letter.Grade[i] <- "F"
+    }
+  }
+  return (data)
+}
+
 updated_grades <- grade.data
 updated_grades$Course.Average..100.0. <- updated_grades$Course.Average..100.0. * .95 + 5
 
@@ -58,11 +77,13 @@ my.summary = function(data) {
 
 ## 3
 # for every number either the floor or ceiling will be even and that will be the closest even number
+# if the number is exactly an odd number, it returns that interger plus 1
 my.even = function(val) {
   if(floor(val)  %%2==0) return (floor(val))
   if(ceiling(val)%%2==0) return (ceiling(val))
-                         return (NULL)
+                         return (floor(val)+1)
 }
+#my.even(-1)
 my.even(2.8)
 my.even(1.3)
 my.even(-5.2)
@@ -119,31 +140,5 @@ my.centers = function (vect) {
   return(c(median_vect,mean_vect,mode_vect))
 }
 
-my_vect <- c(1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+my_vect <- c(0,1,1,0,0,1,1,1,0)
 my.centers(my_vect)
-
-
-
-
-
-
-
-
-
-letter_grades = function(data) {
-  data["Letter.Grade"] <- ""
-  for(i in 1:nrow(data)) {
-    if (data$Course.Average..100.0.[i]>=90) {
-      data$Letter.Grade[i] <- "A"
-    } else if (data$Course.Average..100.0.[i]>=80) {
-      data$Letter.Grade[i] <- "B"
-    } else if (data$Course.Average..100.0.[i]>=70) {
-      data$Letter.Grade[i] <- "C"
-    } else if (data$Course.Average..100.0.[i]>=60) {
-      data$Letter.Grade[i] <- "D"
-    } else {
-      data$Letter.Grade[i] <- "F"
-    }
-  }
-  return (data)
-}
