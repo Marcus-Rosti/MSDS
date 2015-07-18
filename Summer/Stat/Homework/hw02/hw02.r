@@ -18,12 +18,12 @@ bottom_20_homework <- subset(grade.data, grade.data$Homework..200.0.<=quantile(g
 # xbar +/-  2 * s / sqrt(n)
 top_upp  <- mean(top_homework$Course.Average..100.0.) + 2 * sd(top_homework$Course.Average..100.0.) / sqrt(123)
 top_down <- mean(top_homework$Course.Average..100.0.) - 2 * sd(top_homework$Course.Average..100.0.) / sqrt(123)
-cat("The top 20: (",top_down,", ",top_upp,") ")
+cat("The top 20: (",top_down,", ",top_upp,") \n")
 # The top 20: ( 85.95184 ,  87.97987 ) 
 
 bot_upp  <- mean(bottom_20_homework$Course.Average..100.0.) + 2 * sd(bottom_20_homework$Course.Average..100.0.) / sqrt(57)
 bot_down <- mean(bottom_20_homework$Course.Average..100.0.) - 2 * sd(bottom_20_homework$Course.Average..100.0.) / sqrt(57)
-cat("The bottom 20: (",bot_down,", ",bot_upp,") ")
+cat("The bottom 20: (",bot_down,", ",bot_upp,") \n")
 # The bottom 20: ( 58.59651 ,  67.52072 ) 
 
 # b
@@ -33,12 +33,12 @@ far_studs   = subset(grade.data, abs(grade.data$Final.Exam..100.0. - grade.data$
 
 cs_upp  <- mean(close_studs$Course.Average..100.0.) + 2 * sd(close_studs$Course.Average..100.0.) / sqrt(91)
 cs_down <- mean(close_studs$Course.Average..100.0.) - 2 * sd(close_studs$Course.Average..100.0.) / sqrt(91)
-cat("The close 20: (",cs_down,", ",cs_upp,") ")
+cat("The close 20: (",cs_down,", ",cs_upp,") \n")
 # The close 20: ( 79.17462 ,  83.79727 ) 
 
 fs_upp  <- mean(far_studs$Course.Average..100.0.) + 2 * sd(far_studs$Course.Average..100.0.) / sqrt(222)
 fs_down <- mean(far_studs$Course.Average..100.0.) - 2 * sd(far_studs$Course.Average..100.0.) / sqrt(222)
-cat("The far 20: (",fs_down,", ",fs_upp,") ")
+cat("The far 20: (",fs_down,", ",fs_upp,") \n")
 # The far 20: ( 77.16021 ,  80.23843 )
 
 # c
@@ -93,7 +93,9 @@ my.even(-5.2)
 my.hist1 = function(n) {
   random_values <- runif(n,0,10)
   hist(random_values)
+  return
 }
+my.hist1(10)
 
 ## 5
 
@@ -101,9 +103,11 @@ my.hist2 = function(m,n) {
   random_values = {}
   for(i in 1:m)
     random_values[i] <- max(runif(n,0,10))
+  print(length(random_values))
   hist(random_values)
+  return
 }
-
+my.hist2(10,10)
 ## 6
 
 mode_check = function(vect) {
@@ -115,7 +119,7 @@ mode_check = function(vect) {
 Mode <- function(x) {
   # http://stackoverflow.com/questions/2547402/standard-library-function-in-r-for-finding-the-mode
   ux <- unique(x)
-  ux[which.max(tabulate(match(x, ux)))]
+  return (ux[which.max(tabulate(match(x, ux)))])
 }
 
 mean_check = function(vect) {
@@ -134,11 +138,16 @@ my.centers = function (vect) {
   mean_vect = NULL
   mode_vect = NULL
   
-  if(mean_check(vect)) mean_vect=mean(vect)
-  if(mode_check(vect)) mode_vect=Mode(vect)
+  if(mean_check(vect)) mean_vect = mean(vect)
+  if(is.null(mean_vect)) cat("The mean is NULL\n")
+  
+  if(mode_check(vect)) mode_vect = Mode(vect)
+  if(is.null(mode_vect)) cat("The mode is NULL\n")
   
   return(c(median_vect,mean_vect,mode_vect))
 }
 
-my_vect <- c(0,1,1,0,0,1,1,1,0)
-my.centers(my_vect)
+my.centers(c(1,1))
+my.centers(c(round(runif(10000,0,1)))) # (1,0,0,1,1,0,1,0...)
+my.centers(c(runif(10000,0,1)))        # (.01231,.023,.92234,.21,.543...)  
+my.centers(c(rnorm(10000,0,1)))
