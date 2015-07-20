@@ -1,0 +1,9 @@
+Jones, A; 48, 27, 35, 128, 19
+Smith; 88, 72
+Williams, B; 102, 99, 87
+Edwards; 76, 87, 10, 49, 44, 71
+Johnson, J; 22
+SMITH; 98, 113, 32, 8
+Williams, B; 98, 57
+Knight; 34, 56, 119
+Smith; 78

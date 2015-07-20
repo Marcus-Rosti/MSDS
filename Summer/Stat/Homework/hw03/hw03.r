@@ -1,0 +1,1 @@
+lines <- readLines("transactions.txt")
