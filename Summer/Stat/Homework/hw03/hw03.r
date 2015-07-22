@@ -140,17 +140,17 @@ while (i < 19744) {
 }
 
 ## 2 a
-sum(str_detect(clean_table[,4],"Kravitz, D"))
-#there is only one D. Kravitz
+clean_table[str_detect(clean_table[,4],"Kravitz, D")]
+# Sandra Day O'Connor
  
 ## 2 b
 length(unique(clean_table[str_detect(clean_table[,7],"Texas"), ][,4]))
-#there are thirty unique texas goers
+# there are thirty unique texas goers
 
 ## 2 c
 unique(clean_table[str_detect(clean_table[,3],"Black, H"),][,4])
 length(unique(clean_table[str_detect(clean_table[,3],"Black, H"),][,4]))
-#he had 33 clerks
+# he had 33 clerks
 
 ## 2 d
 max(table(as.factor(clean_table[,7])))
