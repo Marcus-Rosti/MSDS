@@ -29,7 +29,7 @@ get_seat <- function(line_number) {
   the_line = NA
   cleaner = NA
   ret = NA
-  
+
   the_line <- lines[line_number]
   cleaner <- str_extract(the_line,"CJ")
   if (!is.na(cleaner)) {
@@ -46,7 +46,7 @@ get_num <- function(line_number) {
   the_line = NA
   cleaner = NA
   ret = NA
-  
+
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">[0-9]{1,3}<")
   ret <- str_extract(clean,"[0-9]{1,3}")
@@ -57,7 +57,7 @@ get_justice <- function(line_number) {
   the_line = NA
   cleaner = NA
   ret = NA
-  
+
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">['a-zA-Z\\s.,]+<")
   ret <- str_extract(clean,"['a-zA-Z\\s.,]+")
@@ -68,7 +68,7 @@ get_clerk <- function(line_number) {
   the_line = NA
   cleaner = NA
   ret = NA
-  
+
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">['a-zA-Z\\s.,]+<")
   ret <- str_extract(clean,"['a-zA-Z\\s.,]+")
@@ -79,7 +79,7 @@ get_started <- function(line_number) {
   the_line = NA
   cleaner = NA
   ret = NA
-  
+
   the_line <- lines[line_number]
   clean <- str_extract(the_line,"[0-9]{4}")
   ret <- str_extract(clean,"[0-9]{4}")
@@ -90,7 +90,7 @@ get_finished <- function(line_number) {
   the_line = NA
   cleaner = NA
   ret = NA
-  
+
   the_line <- lines[line_number]
   clean <- str_extract(the_line,"[0-9]{4}")
   ret <- str_extract(clean,"[0-9]{4}")
@@ -101,7 +101,7 @@ get_school <- function(line_number) {
   the_line = NA
   cleaner = NA
   ret = NA
-  
+
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">['a-zA-Z\\s.,\\&]+<")
   ret <- str_extract(clean,"['a-zA-Z\\s.,\\&]+")
@@ -112,7 +112,7 @@ get_previousclerkship <- function(line_number) {
   the_line = NA
   cleaner = NA
   ret = NA
-  
+
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">[0-9a-zA-Z\\s.,]+<")
   ret <- str_extract(clean,"[0-9a-zA-Z\\s.,]+")
@@ -142,7 +142,7 @@ while (i < 19744) {
 ## 2 a
 clean_table[str_detect(clean_table[,4],"Kravitz, D")]
 # Sandra Day O'Connor
- 
+
 ## 2 b
 length(unique(clean_table[str_detect(clean_table[,7],"Texas"), ][,4]))
 # there are thirty unique texas goers
