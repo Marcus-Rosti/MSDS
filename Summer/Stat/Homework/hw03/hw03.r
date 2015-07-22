@@ -22,16 +22,9 @@ write.table(final_list, file = "output.txt",sep = " ", row.names=FALSE, col.name
 ############################################################################################################
 
 rm(list=ls(all=TRUE))
-###########################################################
-
-library(rvest)
 
 theurl <- "supremecourtclerks.html"
-raw_html <- html(theurl)
-my_table <- raw_html %>% html_nodes(xpath='//*[@id="mw-content-text"]/table[2]') %>% html_table()
-my_table <- my_table[[1]]
 
-###########################################################
 get_seat <- function(line_number) {
   the_line = NA
   cleaner = NA
@@ -45,6 +38,7 @@ get_seat <- function(line_number) {
   else {
     cleaner_other <- str_extract(the_line,">[0-9]{1,2}<")
     ret <- str_extract(cleaner_other,"[0-9]{1,2}")
+    if(is.na(ret)) return (0)
     return (ret)
   }
 }
@@ -56,6 +50,7 @@ get_num <- function(line_number) {
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">[0-9]{1,3}<")
   ret <- str_extract(clean,"[0-9]{1,3}")
+  if(is.na(ret)) return (0)
   return (ret)
 }
 get_justice <- function(line_number) {
@@ -66,6 +61,7 @@ get_justice <- function(line_number) {
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">['a-zA-Z\\s.,]+<")
   ret <- str_extract(clean,"['a-zA-Z\\s.,]+")
+  if(is.na(ret)) return ("")
   return (ret)
 }
 get_clerk <- function(line_number) {
@@ -76,6 +72,7 @@ get_clerk <- function(line_number) {
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">['a-zA-Z\\s.,]+<")
   ret <- str_extract(clean,"['a-zA-Z\\s.,]+")
+  if(is.na(ret)) return ("")
   return (ret)
 }
 get_started <- function(line_number) {
@@ -86,6 +83,7 @@ get_started <- function(line_number) {
   the_line <- lines[line_number]
   clean <- str_extract(the_line,"[0-9]{4}")
   ret <- str_extract(clean,"[0-9]{4}")
+  if(is.na(ret)) return (0)
   return (ret)
 }
 get_finished <- function(line_number) {
@@ -96,6 +94,7 @@ get_finished <- function(line_number) {
   the_line <- lines[line_number]
   clean <- str_extract(the_line,"[0-9]{4}")
   ret <- str_extract(clean,"[0-9]{4}")
+  if(is.na(ret)) return (0)
   return (ret)
 }
 get_school <- function(line_number) {
@@ -106,6 +105,7 @@ get_school <- function(line_number) {
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">['a-zA-Z\\s.,\\&]+<")
   ret <- str_extract(clean,"['a-zA-Z\\s.,\\&]+")
+  if(is.na(ret)) return ("")
   return (ret)
 }
 get_previousclerkship <- function(line_number) {
@@ -116,9 +116,11 @@ get_previousclerkship <- function(line_number) {
   the_line <- lines[line_number]
   clean <- str_extract(the_line,">[0-9a-zA-Z\\s.,]+<")
   ret <- str_extract(clean,"[0-9a-zA-Z\\s.,]+")
+  if(is.na(ret)) return ("")
   return (ret)
 }
 
+lines <- readLines(theurl)
 table_index <- 1
 i <- 144
 rm(clean_table)
@@ -137,3 +139,27 @@ while (i < 19744) {
   i = i + 10
 }
 
+## 2 a
+sum(str_detect(clean_table[,4],"Kravitz, D"))
+#there is only one D. Kravitz
+ 
+## 2 b
+length(unique(clean_table[str_detect(clean_table[,7],"Texas"), ][,4]))
+#there are thirty unique texas goers
+
+## 2 c
+unique(clean_table[str_detect(clean_table[,3],"Black, H"),][,4])
+length(unique(clean_table[str_detect(clean_table[,3],"Black, H"),][,4]))
+#he had 33 clerks
+
+## 2 d
+max(table(as.factor(clean_table[,7])))
+# Harvard produced the most with 503 going there
+
+## 2 e
+table(clean_table[,3])
+# Antonia Scalia has the most with 117
+
+## 2 f
+df_table<-data.frame(clean_table)
+write.csv(df_table,"clerks.csv",row.names = FALSE)
