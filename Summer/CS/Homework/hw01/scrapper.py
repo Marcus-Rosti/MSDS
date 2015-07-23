@@ -1,3 +1,8 @@
+# Marcus rosti
+# mer3ef
+# CS 5010
+# 23 July 2015
+
 from bs4 import BeautifulSoup
 import urllib.request
 
