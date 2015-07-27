@@ -32,8 +32,8 @@ mean(model_simple$residuals^2)
 mean(model_sqrt$residuals^2)
 
 # predict the two 
-preds_simple <- predict(model_simple, newdata = data.frame(disp = sqrt(test$disp)))
-preds_sqrt   <- predict(model_sqrt, newdata = data.frame(disp = sqrt(test$disp)))
+preds_simple <- predict(model_simple, newdata = data.frame(disp = test$disp))
+preds_sqrt   <- predict(model_sqrt, newdata = data.frame(disp = test$disp))
 
 # Write to file!
 write.table(preds_sqrt, file = "hw04p01mypredictions.csv", row.names=F, col.names=F, sep=",")
