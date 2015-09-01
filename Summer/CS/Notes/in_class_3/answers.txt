@@ -1,0 +1,27 @@
+Marcus Rosti    mer3ef
+Katherine Schinkel  kms6bn
+In-Class-Assignment-Python Map-Reduce
+
+1) Dictionary
+2) For each of the words, count has a value of 1
+3) No count does not change, it's one for each value essentially
+4) Word is the key. And word2count[word], returns the value
+5) It could be the case that word2count does not yet contain the key 'word'
+>>> words = {}
+>>> words['word']
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyError: 'word'
+>>> words['words'] = 1
+>>> words['words']
+1
+>>> words['words'] = words['words'] +1
+>>> words['words']
+2
+
+6) If the word is already contain in the dictionary, it adds one to the current value and reassigns it
+        if the word is not contained, it catches the error and initializes the new entry with 1
+
+7) So if it isn't passed a file or is passed an empty file, it fails and won't run.
+        if the try/catch for casting count as an int fails, then it will continue every time
+ 
