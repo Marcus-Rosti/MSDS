@@ -1,0 +1,15 @@
+Goals:
+    Better identify risky communications within the UVa network
+    Provide realtime network analysis
+    Develop a dynamic system of detection to mitigate changing attack patterns
+
+Metrics:
+    Compare volume of communications to identify risky behavior
+    Measure spikes or changes in volatility 
+    Identify known sources of malicious agents 
+
+Hypothesis:
+    Risky communications occur during both volatile and non volatile times
+    There is no correlation to packet size and risky communcations
+    There is no connection between IP networks and hostile agents
+    Hostile agents target specific university IPs

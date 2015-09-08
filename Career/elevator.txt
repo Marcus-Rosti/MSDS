@@ -1,6 +1,6 @@
 I studied Mathematics and CS in undergraduate to develop the tools necessary to become a full stack data engineer.
 
-To prove that, I worked with a course review website that analyzed grades and written reviews to help students select courses
+To that, I worked with a course review website that analyzed grades and written reviews to help students select courses
 
 After working for a year as a systems software engineer, I decided to redirect my career back to my love of data focused engineering.
 

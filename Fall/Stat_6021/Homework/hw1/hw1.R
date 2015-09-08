@@ -1,4 +1,5 @@
 setwd('/Users/RustyRosti/MSDS/Fall/Stat_6021/Homework/hw1')
+library(gdata)
 
 # source files
 NFL   <- read.xls('data-table-B1.XLS')
@@ -9,6 +10,7 @@ MPG   <- read.xls('data-table-B3.XLS')
 ### Problem 1 ###
 # a
 nfl_model <- lm(y ~ x8, data = NFL)
+summary(nfl_model)
 
 # b
 nfl_anova <- anova(nfl_model)
@@ -47,6 +49,7 @@ predict(nfl_model, newdata, interval="prediction", level=.90)
 ### Problem 3 ###
 # a
 solar_model <- lm(y ~ x4, data = solar)
+summary(solar_model)
 
 # b
 anova(solar_model)
@@ -65,6 +68,7 @@ predict(solar_model, newdata, interval="confidence", level=.95)
 ### Problem 4 ###
 # a
 mpg_model <- lm(y~x1, data = MPG)
+summary(mpg_model)
 
 # b
 anova(mpg_model)
@@ -90,6 +94,7 @@ predict(mpg_model, newdata, interval="prediction", level=.95)
 ### Problem 5 ###
 # a
 mpg_model_2 <- lm(y~x10, data = MPG)
+summary(mpg_model_2)
 
 # b
 anova(mpg_model_2)
@@ -98,5 +103,5 @@ anova(mpg_model_2)
 summary(mpg_model_2)$r.squared
 
 # ?d?
-# I would say that x10 explains the variation better since it has a higher r^2 value
+# I would say that x1 explains the variation better since it has a higher r^2 value
 #   since these are both models of one variable
