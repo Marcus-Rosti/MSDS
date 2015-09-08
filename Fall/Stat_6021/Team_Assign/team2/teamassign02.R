@@ -1,6 +1,6 @@
 # Team Assignment 2
-#
 
+setwd("~/MSDS/Fall/Stat_6021/Team_Assign/team2")
 # Possibly handy code from Team Assignment 1:
 x <- read.table("x-values.txt")[,1]
 
@@ -21,6 +21,7 @@ y <- 25 + 4*x + rnorm(100, mean=0, sd = 12)
 #   (a) Simulate MS_Res, and find a 95% confidence interval for sigma^2 by 
 #       finding the 2.5th and 97.5th percentiles to give the lower and upper
 #       confidence limits.
+for()
 #   (b) Carry out the hypothesis test H0: beta_1 = 4 vs H1: beta_1 not= 4.  Test
 #       at a 5% significance level each time, and determine the proportion of 
 #       times that the null hypothesis is rejected, implying that beta_1 not= 4.

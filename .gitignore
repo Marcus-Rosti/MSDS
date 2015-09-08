@@ -1,5 +1,8 @@
 # Created by https://www.gitignore.io
 
+Fall/Sys_6012
+Fall/Stat_6021/linear_regression_5e_data_sets
+
 ### R ###
 # History files
 .Rhistory
