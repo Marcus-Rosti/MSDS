@@ -6,6 +6,8 @@ x <- read.table("x-values.txt")[,1]
 
 # Generate corresponding y-values according to the 
 # model y ~ 25 + 4x + e, where e~N(0,var=12^2)
+true_mean <- 0
+true_var  <- 12^2
 
 y <- 25 + 4*x + rnorm(100, mean=0, sd = 12)
 
@@ -21,7 +23,27 @@ y <- 25 + 4*x + rnorm(100, mean=0, sd = 12)
 #   (a) Simulate MS_Res, and find a 95% confidence interval for sigma^2 by 
 #       finding the 2.5th and 97.5th percentiles to give the lower and upper
 #       confidence limits.
-for()
+Sxx <- sum((x-mean(x))^2)
+sigma.sq.array<-rep(0,1000)
+t_test <- req(0,1000)
+for(i in 1:1000) {
+  y <- 25 + 4*x + rnorm(100, mean=0, sd = 12)
+  
+  lm.temp <- lm(y~x)
+  lm.sum<-summary(lm.temp)
+  sigma.sq<-sum((lm.sum$residuals)^2)/98
+  sigma.sq.array[i] <- sigma.sq
+  MSres <- sqrt(sigma.sq/Sxx)
+  
+  t_test_0<-(lm.temp$coefficients[2] - 4)/MSres
+  if(t_test_0 > 1.984467 | t_test_0 < (-1.984467)) {
+    t_test[i] <- 1
+  } else {
+    t_test[i] <- 0
+  }
+  
+}
+quantile(sigma.sq.array, c(.025,.975))
 #   (b) Carry out the hypothesis test H0: beta_1 = 4 vs H1: beta_1 not= 4.  Test
 #       at a 5% significance level each time, and determine the proportion of 
 #       times that the null hypothesis is rejected, implying that beta_1 not= 4.
