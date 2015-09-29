@@ -102,7 +102,7 @@ sum(apply(no911_all_sets,2,"nafind") > 0)
 # defintely not
 
 # Remove unnecessary variables, then get a summary
-# Keep TYPEQ, we'll use it. 
+# Keep TYPEQ, we'll use it.
 
 varWna_all_sets <- which(nacount_all_sets > 0)
 
@@ -191,11 +191,3 @@ clean_all_sets$NARR <- apply(clean_all_sets[,c(
 )],1,paste,collapse = "")
 
 # GG
-
-
-
-
-
-
-
-
