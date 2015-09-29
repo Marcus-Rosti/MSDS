@@ -3,16 +3,20 @@ import pandas as pd
 from pandas import Series, DataFrame
 import numpy as np
 import os
-#from collections import Counter
-#from pympler.tracker import SummaryTracker
-#tracker = SummaryTracker()
-# Plotting
-#import seaborn as sns
-#import matplotlib as mpl
-#import matplotlib.pyplot as plt
+from collections import Counter
 
-# %matplotlib inline
+#There's a weird pandas warning that doesn't apply
+pd.options.mode.chained_assignment = None
 
+def print_header():
+    print("    ___      _          __    __                       _ _             ")
+    print("   /   \__ _| |_ __ _  / / /\ \ \_ __ __ _ _ __   __ _| (_)_ __   __ _ ")
+    print("  / /\ / _` | __/ _` | \ \/  \/ | '__/ _` | '_ \ / _` | | | '_ \ / _` |")
+    print(" / /_/| (_| | || (_| |  \  /\  /| | | (_| | | | | (_| | | | | | | (_| |")
+    print("/___,' \__,_|\__\__,_|   \/  \/ |_|  \__,_|_| |_|\__, |_|_|_| |_|\__, |")
+    print("                                                 |___/           |___/ ")
+
+# helper function
 def print_breaks():
     breaks = ""
     for i in range(81):
@@ -50,23 +54,23 @@ def combineNarratives(df_with_sep_narrs):
     df_with_combined_narrs.NARR = df_with_sep_narrs[numbers].fillna('').sum(1)
     return df_with_combined_narrs
 
-def fixType(df_without_type):
+def fixType(df_dirty_type):
     map_type = {1:"Derailment", 2:"HeadsOn", 3:"Rearmed", 4:"Side", 5 :"Raking", \
     6:"BrokenTrain", 7:"Hwy-Rail", 8:"GradeX", 9:"Obstruction", 10:"Explosive", \
     11:"Fire", 12:"Other", 13:"SeeNarrative"}
-    df_with_type = df_without_type
-    df_with_type.TYPE = df_without_type.TYPE.map(map_type)
-    return df_with_type
+    df_clean_type = df_dirty_type
+    df_clean_type.TYPE = df_dirty_type.TYPE.map(map_type)
+    return df_clean_type
 
-def fixTypeQ(df_without_levels):
+def fixTypeQ(df_dirty_levels):
     # new levels
     map_typeq = {1:"Freight", 2:"Passenger", 3:"Commuter", 4:"Work",\
                  5:"Single", 6:"CutofCars", 7:"Yard", 8:"Light", 9:"Maint"}
-    df_with_levels = df_without_levels
-    df_with_levels.TYPEQ = df_without_levels.TYPEQ.map(map_typeq)
-    return df_with_levels
+    df_clean_levels = df_dirty_levels
+    df_clean_levels.TYPEQ = df_dirty_levels.TYPEQ.map(map_typeq)
+    return df_clean_levels
 
-def dropNAs(df_with_all_data):
+def dropNAs(df_dirty_data):
     """ Drops NAs - with stipulations
 
         I thought this required an explanation. It doesn't drop every single na.
@@ -78,47 +82,46 @@ def dropNAs(df_with_all_data):
             df_clean_data    - dataframe that has no columns with NAs
     """
     # Save certain columns
-    type_temp = df_with_all_data.TYPE
-    typeQ_temp = df_with_all_data.TYPEQ
+    type_temp = df_dirty_data.TYPE
+    typeQ_temp = df_dirty_data.TYPEQ
 
     # Remove anything with an NA
-    df_clean_data = df_with_all_data.dropna(axis=1)
+    df_clean_data = df_dirty_data.dropna(axis=1)
 
     # Add columns back into the df
-    df_clean_data.TYPE = df_with_all_data.TYPE
-    df_clean_data.TYPEQ = df_with_all_data.TYPEQ
+    df_clean_data.TYPE = type_temp
+    df_clean_data.TYPEQ = typeQ_temp
 
     # Return the clean df
     return df_clean_data
 
+def causeFixerFunction(cause_to_fix):
+    """ Functional way to a fix single cause
+    """
+    if cause_to_fix.startswith("T"):
+        return "T"
+    if cause_to_fix.startswith("H"):
+        return "H"
+    if cause_to_fix.startswith("M"):
+        return "M"
+    if cause_to_fix.startswith("E"):
+        return "E"
+    else:
+        return "S"
+
 def fixCauseInPlace(df_dirty_cause):
-    df_dirty_cause
+    df_clean_cause = df_dirty_cause
+    df_clean_cause.CAUSE = df_dirty_cause.CAUSE.map(causeFixerFunction)
     return df_clean_cause
 
-def fixCause(df_without_cause):
-    causes = df_without_cause.CAUSE
-    mycause = Series([])
-
-    for i, c in enumerate(causes):
-        if(i%1000 == 0):
-            print("Fixed: ", i)
-        if c.startswith("T"):
-            mycause = mycause.append(Series(["T"]))
-        if c.startswith("H"):
-            mycause = mycause.append(Series(["H"]))
-        if c.startswith("M"):
-            mycause = mycause.append(Series(["M"]))
-        if c.startswith("E"):
-            mycause = mycause.append(Series(["E"]))
-        else:
-            mycause = mycause.append(Series(["S"]))
-    df_with_cause = df_without_cause
-    df_with_cause.CAUSE = causes
-    return df_with_cause
-
+# Entry point
 def main():
+    print_breaks()
+    print_header()
+    print_breaks()
     files = []
     init_df = DataFrame()
+    print("Reading in data files")
     try: # encapsulate unsafe IO into a try/catch
         # get files to read
         files = getFiles("/Users/RustyRosti/MSDS/Fall/DS_6001/inclass2/data")
@@ -133,6 +136,8 @@ def main():
     "TONS", "CARSDMG", "TOTINJ", "TOTKLD"]].describe())
     print_breaks()
 
+    print("Removing 911")
+    print("The other outliers are interesting points")
     no_dups_df = removeDuplicates(init_df)
     no_911_df = remove911(no_dups_df)
     print("The number of rows without dups: ", no_911_df.shape)
@@ -141,23 +146,27 @@ def main():
 
     print("Concatenating Narratives")
     one_narr_df = combineNarratives(no_911_df)
-    print(one_narr_df.NARR)
+    print(one_narr_df.NARR.describe())
     print_breaks()
 
     print("Fixing the types")
     fixed_type_df = fixType(one_narr_df)
+    print(Counter(fixed_type_df.TYPE))
     print_breaks()
 
     print("Fixing TypeQ level")
     fixed_levels_df = fixTypeQ(fixed_type_df)
+    print(Counter(fixed_levels_df.TYPEQ))
     print_breaks()
 
     print("Fixing causes")
-    fixed_cause_df = fixCause(fixed_levels_df)
+    fixed_cause_df = fixCauseInPlace(fixed_levels_df)
+    print(Counter(fixed_cause_df.CAUSE))
     print_breaks()
 
     print("Removing NAs")
     no_nas_df = dropNAs(fixed_cause_df)
+    print(no_nas_df.describe())
     print_breaks()
 
 
