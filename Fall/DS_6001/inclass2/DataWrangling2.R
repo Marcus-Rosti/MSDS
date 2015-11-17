@@ -311,8 +311,40 @@ agg <- aggregate(totacts$ACCDMG,by = list(totacts$YEAR4),FUN = sum)
 agg2 <- aggregate(totacts$ACCDMG,by = list(totacts$YEAR4),FUN = max)
 agg$MAX <- agg2$x
 
+
+ggplot(data = agg, aes(x = Group.1, y = x, group = 1)) +
+  geom_line() +
+  geom_point() +
+  geom_point(aes(size = MAX,colour = "tomatoRed")) +
+  scale_size_continuous(range = c(2, 30)) +
+  xlab("Year") + ylab("Total Cost") +
+  ggtitle("Total cost by year") +
+  theme_bw() +
+  theme(
+    panel.border = element_blank(), panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  theme(legend.position = "none")
+
 # Repeat this for total killed and total injured and the sum of them.
 
+agg_causalties <- aggregate(totacts$TOTINJ+totacts$TOTKLD,by = list(totacts$YEAR4),FUN = sum)
+agg_causalties_max <- aggregate(totacts$TOTINJ+totacts$TOTKLD,by = list(totacts$YEAR4),FUN = max)
+agg_causalties$MAX <- agg_causalties_max$x
+
+ggplot(data = agg_causalties, aes(x = Group.1, y = x, group = 1)) +
+  geom_line() +
+  geom_point() +
+  geom_point(aes(size = MAX,colour = "tomatoRed")) +
+  scale_size_continuous(range = c(2, 30)) +
+  xlab("Year") + ylab("Total casualties") +
+  ggtitle("Total casualties by year") +
+  theme_bw() +
+  theme(
+    panel.border = element_blank(), panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  theme(legend.position = "none")
 
 
 #***********************************
@@ -324,20 +356,50 @@ agg$MAX <- agg2$x
 
 # Box plot of ACCDMG and logs
 
-
+ggplot(data=totacts, aes(x=factor(YEAR4), y=ACCDMG)) +
+  geom_boxplot() +
+  xlab("Year") + ylab("Total Cost") +
+  ggtitle("Total cost by year") +
+  theme_bw() +
+  theme(
+    panel.border = element_blank(), panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  theme(legend.position = "none")
 
 # Log
 
-
+ggplot(data=totacts, aes(x=factor(YEAR4), y=log(ACCDMG))) +
+  geom_boxplot() +
+  xlab("Year") + ylab("Log Cost") +
+  ggtitle("Total log cost by year") +
+  theme_bw() +
+  theme(
+    panel.border = element_blank(), panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  theme(legend.position = "none") +
+  geom_abline(intercept=log(4*IQR(totacts$ACCDMG)),slope=0,color="red")
 
 # Casualties
 # Box plot of Casualties and logs
-
+ggplot(data=totacts, aes(x=factor(YEAR4), y=TOTKLD+TOTINJ)) +
+  geom_boxplot() +
+  xlab("Year") + ylab("Casualties") +
+  ggtitle("Total casualties by year") +
+  theme_bw() +
+  theme(
+    panel.border = element_blank(), panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  theme(legend.position = "none") +
+  geom_abline(intercept=100,slope=0,color="red")
 
 # Extreme Points
+big_casualties<-subset(totacts, TOTKLD + TOTINJ > 4* IQR(TOTKLD + TOTINJ))
 
 # ACCDMG
-
+big_damage <- subset(totacts, ACCDMG >4*IQR(ACCDMG))
 
 #******************************************
 #
@@ -348,6 +410,29 @@ agg$MAX <- agg2$x
 
 # Plot only the extreme points
 # (extreme defined by the box plot rule)
+ggplot(data=big_damage, aes(x=factor(YEAR4), y=log(ACCDMG))) +
+  geom_boxplot() +
+  xlab("Year") + ylab("Log Cost") +
+  ggtitle("Total big log cost by year") +
+  theme_bw() +
+  theme(
+    panel.border = element_blank(), panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  theme(legend.position = "none")
+
+# Casualties
+# Box plot of Casualties and logs
+ggplot(data=big_casualties, aes(x=factor(YEAR4), y=TOTKLD+TOTINJ)) +
+  geom_boxplot() +
+  xlab("Year") + ylab("Casualties") +
+  ggtitle("Total big casualties by year") +
+  theme_bw() +
+  theme(
+    panel.border = element_blank(), panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  ) +
+  theme(legend.position = "none")
 
 # Get the values in the box plot
 
@@ -359,11 +444,9 @@ agg$MAX <- agg2$x
 #**************************************************
 
 
-
-
 # Basic SPM
 
-pairs( ~ TRKDMG + EQPDMG + ACCDMG + TOTINJ + TOTKLD, data = xdmg)
+pairs( ~ TRKDMG + EQPDMG + ACCDMG + TOTINJ + TOTKLD, data = totacts)
 
 # Use panel functions for improving this.
 
@@ -379,4 +462,4 @@ pairs( ~ TRKDMG + EQPDMG + ACCDMG + TOTINJ + TOTKLD, data = xdmg)
 
 # Other imputation
 # knnImputation in DMwR
-v
+

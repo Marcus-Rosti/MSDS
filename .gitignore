@@ -3,6 +3,16 @@
 Fall/Sys_6012
 Fall/Stat_6021/linear_regression_5e_data_sets
 
+.idea
+
+*.XLS
+*.xls
+*.csv
+
+*.pkl
+
+Fall/DS_6001/R-visualizations/data
+
 ### R ###
 # History files
 .Rhistory
@@ -180,3 +190,4 @@ reated by https://www.gitignore.io
 ## LibreOffice locks
 .~lock.*#
 
+.Rproj.user

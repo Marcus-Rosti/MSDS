@@ -13,7 +13,7 @@ setwd("~/MSDS/Fall/DS_6001/inclass2")
 #************************************
 # Reading in data
 #************************************
-
+l
 
 # Read all the data into one data frame
 trim <- function(x)
