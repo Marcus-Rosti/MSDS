@@ -4,7 +4,7 @@
 #***************************************************************
 #
 #  Time Series
-#		
+#
 #
 #***************************************************************
 
@@ -15,10 +15,19 @@
 #***************************************************************
 
 
+plot.fft <- function(data_set) {
+  per = abs(fft(data_set-mean(data_set)))^2/length(data_set)
+  freq = (1:length(data_set)-1)/length(data_set)
+  plot(freq, per, type="h")
+}
+
+plot(fft(sin(seq(0,2*pi,0.01))))
+plot(sin(seq(0,6.28,0.01)))
+
 library(forecast)
 library(datasets)
 
-
+library(stats)
 #***************************************************************
 #  Visualizing time series
 #***************************************************************
@@ -54,7 +63,7 @@ air.pg <-spec.pgram(AirPassengers,spans=9,demean=T,log='no')
 air.pg <-spec.pgram(AirPassengers,spans=3,demean=T,log='no')
 
 ##find the peak, max.omega
-max.omega.air<-air.pg$freq[which(air.pg$spec==max(air.pg$spec))] 
+max.omega.air<-air.pg$freq[which(air.pg$spec==max(air.pg$spec))]
 
 #where is the peak?
 max.omega.air
@@ -66,7 +75,7 @@ max.omega.air
 sunspot.pg <- spec.pgram(sunspot.year, spans = 9, demean = T, log = "no")
 
 ##find the peak, max.omega
-max.omega.sunspot<-sunspot.pg$freq[which(sunspot.pg$spec==max(sunspot.pg$spec))] 
+max.omega.sunspot<-sunspot.pg$freq[which(sunspot.pg$spec==max(sunspot.pg$spec))]
 
 #where is the peak?
 max.omega.sunspot
